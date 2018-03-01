@@ -1,0 +1,54 @@
+Mindru Alexandru-Ionut
+Grupa 321CB
+
+Reducerea presupune gasirea unei expresii f provenite dintr-un graf (G)
+specifica problemei SAT ce reprezinta colorarea grafului, in functie de numarul
+de noduri, muchii si numarul de culori.
+Vom incerca sa analizam constrangerile problemei k-colorability in 3 variante:
+At Least One Color (ALOC), At Most One Color (AMOC) si Different Color (DCOL)
+Constrangerea ALOC este folosita pentru a colora fiecare nod. In alte cuvinte,
+toate nodurile trebuie sa fie colorate. AMOC este folosita pentru verificarea
+nodurile care pot avea mai multe culori. DCOL este folosit pentru a atribui
+culori diferite nodurilor legate prin muchii. Pentru a afla expresia si a obtine
+clauzele SAT, vom crea un vector de dimensiune k * |V| ce va tine toate
+variabile pentru clauzele SAT.
+|V| - numar noduri
+k - numar culori
+
+Categoria ALOC:
+Vrem sa atribuim cel putin o culoare fiecarui nod. Dintre toate variabilele
+de la initializare, macar una trebuie sa fie adevarata. Acest lucru va genera o
+clauza pentru un nod, rezultand un total de |V| de clauze pentru nodurile unui
+graf. Reprezentare generala a unei clauze pentru un nod xi este de forma:
+		˄ ( xi ˅xi ˅ … ˅xi ), i = 0,(|V| - 1)
+
+Categoria AMOC:
+Exista posibilitatea ca unui nod sa fie atribuit mai mult de o culoare. Pentru
+a evita acest lucru generam clauze pentru a accentua ca un nod xi ii este
+atribuit cel putin o culoare. Noi verificam daca un nod are atribuit o culoare
+m, atunci sigur nu ii e atribuit o culoare n s.a.m.d. Reprezentare generala a unei clauze pentru un nod xi este de forma:
+        ˄ (~xi,m ˅ ~xi,n), 1 <= m <= k, (m + 1) <= n <= k
+Pentru ca toate aceste clauze sa fie adevarate, cel mult un literal trebuie sa
+fie fals(=0), adica cel mult o variabila sa fie adevarata => fiecare nod are o
+singura culoare.
+
+Categoria DCOL:
+Aceasta e cea mai importanta constrangere pentru problema k-colorability. Se
+bazeaza pe conditia ca intre 2 noduri conectate printr-o muchie au culori
+diferite. daca nodurile vi, vj sunt conectate printr-o muchie e, atunci
+xi, xj nu trebuie sa fie colorate cu n. Atunci pentru fiecare muchie
+(xi, xj) ϵ E, daca xi este colorat cu m atunci xj nu ar trebui sa fie colorat
+cu m. Aceastra constrangere genereaza o clauza cu 2 literali (!xi,m ˅ !xj,m).
+Punem aceasta constrangere pentru fiecare culoarea m, care genereaza un total
+de (m * E) clauze pentru toate muchiile din graf. Toate clauzele SAT, pentru
+muchiile (xi, xj) sunt reprezentate in felul urmator:
+		˄ (~xi,m ˅ ~xi,m), 1 <= c <= k, unde c este o clauza
+
+Timp Polinomial:
+Complexitatile celor trei categorii sunt:
+-pentru ALOC: O(noduri * culori)
+-pentru AMOC: O(noduri * culori ^ 2)
+-pentru DCOL: O(muchii * culori)
+Toate aceste 3 complexitati sunt polinomiale iar complexitatea finala, fiind
+data de maximul dintre ele, este prin urmare tot polinomiala.
+Deci transformarea data este efectuata intr-un timp polinomial.
