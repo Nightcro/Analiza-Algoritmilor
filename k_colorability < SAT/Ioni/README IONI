@@ -1,0 +1,32 @@
+		------------------------
+	       |                        |
+	       | Ionela Turcuman 321CB  |
+	       |     Tema 4 AA		|
+	       | Reducere K-col la SAT  |
+	       |                        |
+	        ------------------------
+
+Reducerea presupune gasirea unei expresii f de G(graf) specifica problemei SAT ce reprezinta colorarea grafului,in functie de numarul de noduri,muchii si numarul de culori.
+Pentru fiecare nod al grafului definim nrcolor literali,dupa forma precizata "x i*nrcolor + j",unde i e numarul unui nod iar j este una dintre culorile disponibile.
+O K-colorare a unui graf presupune ca fiecare nod sa fie colorat fix cu o culoare iar nodurile intre care exista muchie sa aiba culori diferite.
+Aceste sunt cele 3 conditii:
+1.fiecare nod colorat cu minim o culoare
+2.fiecare nod colorat cu maxim o culoare
+3.nodurile intre care exista muchie sunt colorate diferit
+iar acesti 3 pasi ii traducem in  construirea  expresiei dupa cum urmeaza:
+1.Cel putin unul dintre literarii (culoare) specifici unui nod sa fie adevarat(=1);adica fiecarui nod ii este specifica cel putin o culoare.
+Acest pas il realizam prin conditia sau intre toti literalii specifici unui nod,care pentru obtinerea rezultatului de adevar al clauzei(specifice nodului) duce la obligativitatea ca cel putin unul dintre literalii de forma "x i*nrcolor + j" precizata si anterior sa aiba valoarea 1-sa fie adevarata.
+2.Cel mult una dintre variabilele specifice unui nod sa fie adevarata pentru ca expresia sa fie adevarata.Adica pentru un nod nu pot fi 2 sau mai multe variabile(culori) care sa aiba concomitent valore de adevar <=> un nod nu poate sa aibe mai multe culori in acelasi timp.
+Acest pas il realizam prin crearea de clauze de cate doi literali ce reprezinta formele negate ale variabilelor de forma "x i*nrcolor + j".Pentru ca toate aceste clauze sa fie adevarate,cel mult un literal trebuie sa fie fals(=0),adica cel mult o variabila sa fie adevarata.Acest lucru,realizat pentru fiecare nod implica faptul ca fiecarui nod ii corespunde maxim o culoare.
+Din aceste prime doua parti reiese faptul ca fiecare nod este colorat fix cu o culoare-indeplinim primele 2 conditii.
+3.Doi literali echivalenti,specifici unor noduri intre care exista muchie nu trebuie sa fie concomitent adevarati pentru ca expresia f finala sa fie adevarata.
+Pentru realizarea acestui pas am creat clauze intre fiecare doua variabile corespondente nodurilor intre care exista muchie,variabile care au indicele j egal ( aceeasi culoare).Literarii clauzelor au fost reprezentati de aceste variabile sub forma lor negata,deoarece daca cei doi literali erau concomitent falsi (clauza era falsa=>expresia era falsa),insemna ca ambele variabile erau adevarate,adica doua noduri intre care exista muchie au aceeasi culoare.
+Prin realizarea si a acestei ultime parti,am facut expresia f specifica problemei SAT pornind de la un Graf G si un numar de culori.
+
+Timp Polinomial
+Realizarea celor trei pasi se incadreaza in complexitatile:
+-pentru pas1:O(noduri*culori)
+-pentru pas2:O(noduri*culori^2)
+-pentru pas3:O(muchii*culori)
+Toate aceste 3 complexitati sunt polinomiale iar complexitatea finala,fiind data de maximul dintre ele,este prin urmare tot polinomiala.
+	

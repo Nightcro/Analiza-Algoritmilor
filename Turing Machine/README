@@ -1,0 +1,49 @@
+Program realizat de Mindru Alexandru-Ionut
+Grupa 321CB
+
+Task 1:
+
+In cadrul programului se gasesc 3 structuri:
+-In turing_req.h: Transition, State, TuringMachine
+
+In turing_req.c gasim urmatoarele functii
+get_word - citeste cuvant cu cuvant din fisier (pentru a aloca eficient
+functia de fapt citeste litera cu litera si realoca)
+initialise_turing_machine - initializeaza o structura de tipul TuringMachine
+read - citeste input-ul din fisier pana intalneste tranzitiile
+read_trans - citeste tranzitiile din fisier
+work_machine - simuleaza masina turing
+resize_band - realoca banda daca se depaseste alocarea initiala
+alocation_error - functie de semnalare eroare alocare
+free_machine - elibereaza memoria ocupata de masina turing
+
+Am construit un "hashmap", adica in structura TuringMachine
+exista un vector de stari (State) ce retine pentru fiecare stare un vector de
+tranzitii, adica fiecare stare cu tranzitiile lui.
+
+Toti vectorii sunt alocati dinamic deci e eficient din punct de vedere al
+memoriei si e si rapid ca timp de executie.
+
+Task 2:
+
+Mai intai am ordonat banda sub forma "abcd", apoi am luat perechi abcd, abc, abd etc..
+Astfel masina este compusa din 2 parti:
+I) primele 35 de stari, repectiv 117 tranzitii reprezinta ordonarea benzii
+Ex: #bdabcaad#
+Se ia fiecare litera incepand cu a, se rescrie cu x si se interschimba pana la
+final
+#bdxbcaad# -> #bdbxcaad# -> #bdbcxaad# -> etc -> #bdbcaadx#
+se repeta pentru a -> #bdbcdxxx#
+a = x, b = y, c = z, d = w
+se repeta si pentru celelalte litere pana avem
+#xxxyyzww#
+acum se vor transforma inapoi in abcd
+#aaabbcdd#
+
+II) 14 stari si 63 de tranzitii
+Se vor lua perechi abcd, abc, abd, etc, perechile sunt rescrise cu x
+etc dar inainte de a lua perechi se face o verificare daca mai exista o litera
+Ex: #aaabbcdd# -> mai intai se verifica daca mai e o litera pentru a opri masina
+si ajunge in starea finala altfel luam perechi ->
+#xaaxbxdx# -> se verifica -> programul continua pana ramane o litera ->
+#xxaxxxxx# -> a ramas o litera -> programul ajunge in starea finala
